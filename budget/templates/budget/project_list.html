@@ -1,0 +1,42 @@
+{% extends 'base.html'%}
+
+{% block content%}
+
+<div class="container">
+<div class="row">
+  <div class="col-12 mt-5" style="color:grey"><h1>My Projects</h1>
+    <hr></div>
+</div>
+<div class="row">
+  {% for project in project_list%}
+  <div class="col-xs-12 col-sm-6 col-md-3 ">
+    <div class="card text-center p-3 ">
+      <h5 class="my-2">{{project.name}}</h5>
+      <a class="btn btn-primary p-0 my-2 mx-5" href="{% url 'budget:detail' project.slug %}">Visit</a>
+    </div>
+  </div>
+  {% empty %}
+      <div class="row mt-5 justify-content-center">
+    <div class="col-8 mt-5 p-5">
+      <div class="text-center" style="border-width: 6px; border-style:dashed; border-color: grey">
+      <h1 class="my-3" style="color:grey;"> Sorry you donot have any projects Yet!</h1>
+      <button  class=" btn btn-primary my-2" style="color:white"><a href="{% url 'budget:add' %}" style="color:white"><i class="fa fa-plus-circle" aria-hidden="true">
+        </i> add projects </a></button>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  {% if project_list %}
+  <div class="col-12 text-center my-5">
+        <button  class=" btn btn-primary my-2" style="color:white"><a href="{% url 'budget:add' %}" style="color:white"><i class="fa fa-plus-circle" aria-hidden="true">
+        </i> add projects </a></button> 
+</div>
+{% endif %}
+  </div>
+}
+
+
+
+</div>
+
+{% endblock content%}

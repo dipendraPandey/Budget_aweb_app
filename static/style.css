@@ -1,0 +1,54 @@
+
+
+body{
+	background:white;
+}
+
+.container{
+	background:white;
+}
+
+
+.card h1{
+	font-size:calc(3px + 3vw);
+}
+
+@media(max-width: 766px){
+	.card h1{
+	font-size:calc(10px + 3vw);
+}
+
+.card h5{
+	font-size: calc(8px + 2vw);
+}
+
+}
+
+
+ {
+  background: blue;
+}
+
+
+.section-expense .category {
+	font-size:20px;
+}
+
+li{
+	list-style-type: none;
+}
+
+.expenses li:nth-child(even) .section-expense{
+	background-color: #f2f2f2f2;
+	
+}
+
+
+
+/*adding the project html */
+
+form ul li.category{
+	display:inline-block;
+	background-color: white;
+	margin-right: 5px;
+}

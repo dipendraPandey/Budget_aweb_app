@@ -1,0 +1,122 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+
+<div class="container">
+	
+	<div class="row  justify-content-center">
+		<div class="col-8 mt-5">
+			<div class="col-12 text-center mb-5">
+				<h1 style="color: grey">{{project.name}}</h1>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-xs-12 col-sm-12 col-md-4 ">
+					<div class="card text-center p-3">
+						<h5 class="font-weight-bold">Budget</h5>
+						<h1 class="font-weight-bold">${{project.budget}}</h1>
+					</div>
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-4">
+					<div class="card text-center p-3">
+						<h5  class="font-weight-bold">Expenses</h5>
+						{% if project.total_budget_left > 0 %}
+						<h1  class="font-weight-bold" style="color:green">${{project.total_budget_left}}</h1>
+						{% elif project.total_budget_left == 0 %}
+						<h1  class="font-weight-bold" style="color:orange">${{project.total_budget_left}}</h1>
+						{% else %}
+						<h1  class="font-weight-bold" style="color:red">${{project.total_budget_left}}</h1>
+						{% endif %}
+					</div>
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-4">
+					<div class="card text-center p-3">
+						<h5  class="font-weight-bold">Transactions</h5>
+						<h1  class="font-weight-bold">{{project.total_transaction}}</h1>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-2 offset-8">
+			<button class="btn my-1 p-0 px-1" style="background:#0066cc; color: white" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus-circle" aria-hidden="true"></i> add expense </button>
+		</div>
+	</div>
+	<div class="row  justify-content-center">
+		<div class="col-7 expenses mt-1">
+			<ul class="z-index-1 p-0 ">
+				{% for expense in expense_list %}
+				<li>
+          			<div class="card section-expense ">
+            			<div class="row "> 
+              				<div class="col-4 my-auto ml-1 title">
+                				<h6 class = "my-2 ">{{expense.title}}</h6>
+              				</div>
+              				<div class="col-3 my-auto ml-1 title">
+                				<h6 class = "my-2 ">${{expense.amount}}</h6>
+              				</div>
+              				<div class="col-3 m-auto">
+                				<h6 class = "my-auto category">{{expense.category }} </h6>
+              				</div>
+              				<div class="col-1" >
+              						<a style="color:red;" onclick="deleteExpense(this)"  data-id='{{expense.id}}'><i class="fa fa-times-circle" aria-hidden="true"></i></a>	
+              				</div>
+          				</div>
+          			</div>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+
+
+<!-- The model for the add expense -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="color:#4d73ff;">Add Expense</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST">
+      	{% csrf_token %}
+      <div class="modal-body">
+        <input class="form-control my-1" type="text" name='title' placeholder="Expense Title">
+        <select  name="category" class=" my-1 form-control">
+  			{%for category in category_list%}
+  			<option>{{category.name}}</option>
+  			{% endfor %}
+		</select>
+        <input class=" my-1 form-control" name="amount" type="number" placeholder="Amount">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+	
+	function deleteExpense(e){
+		let id = e.dataset.id
+		e.closest('li').remove()
+		fetch('',{
+			method:"DELETE",
+			headers:{
+				'X-CSRFToken':'{{csrf_token}}'
+			},
+			body:JSON.stringify({
+							'id':id
+						}),
+			credentials:'same-origin',
+		})
+	}
+</script>
+
+{% endblock content%}

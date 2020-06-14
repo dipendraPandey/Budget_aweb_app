@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content%}
+
+<div class="container">
+  <form method="POST" action="">
+    {% csrf_token %}
+    {{form.as_p}}
+    <label for='categoryInput'>Expense Category(Hit enter after every category)</label>
+    <input type="text" name="categoryInput" id="categoryInput">
+    <input type="hidden" name="categoriesString">
+    <ul id="categoriesContainer">
+    </ul>
+    <button type="submit" class="btn btn-outline-primary">Add Project</button>
+  </form>
+</div>      
+<script type="text/javascript" src="{% static 'script.js'%}"></script>
+{% endblock content%}
